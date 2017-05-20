@@ -7,15 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		971A71C304D8E989C56B7F92 /* Pods_Mortgage_Manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A6552860CD28244355C695 /* Pods_Mortgage_Manager.framework */; };
 		FEDA29721ECD098E0012EBD2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA29711ECD098E0012EBD2 /* AppDelegate.swift */; };
 		FEDA29741ECD098E0012EBD2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA29731ECD098E0012EBD2 /* FirstViewController.swift */; };
 		FEDA29761ECD098E0012EBD2 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA29751ECD098E0012EBD2 /* SecondViewController.swift */; };
 		FEDA29791ECD098E0012EBD2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEDA29771ECD098E0012EBD2 /* Main.storyboard */; };
 		FEDA297B1ECD098E0012EBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEDA297A1ECD098E0012EBD2 /* Assets.xcassets */; };
 		FEDA297E1ECD098E0012EBD2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEDA297C1ECD098E0012EBD2 /* LaunchScreen.storyboard */; };
+		FEFF34981ECFEFDA007460DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		FEDA29A11ECF95BA0012EBD2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		13A6552860CD28244355C695 /* Pods_Mortgage_Manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mortgage_Manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		54519CBAA4DF4EFF34720D44 /* Pods-Mortgage Manager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mortgage Manager.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mortgage Manager/Pods-Mortgage Manager.release.xcconfig"; sourceTree = "<group>"; };
+		918B957264273AF3F1B66E9B /* Pods-Mortgage Manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mortgage Manager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mortgage Manager/Pods-Mortgage Manager.debug.xcconfig"; sourceTree = "<group>"; };
 		FEDA296E1ECD098E0012EBD2 /* Mortgage Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mortgage Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEDA29711ECD098E0012EBD2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEDA29731ECD098E0012EBD2 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +42,7 @@
 		FEDA297A1ECD098E0012EBD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEDA297D1ECD098E0012EBD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FEDA297F1ECD098E0012EBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +50,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				971A71C304D8E989C56B7F92 /* Pods_Mortgage_Manager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D985450F81F59D8BD585C58 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13A6552860CD28244355C695 /* Pods_Mortgage_Manager.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F60E6F70669C368B3733AE43 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				918B957264273AF3F1B66E9B /* Pods-Mortgage Manager.debug.xcconfig */,
+				54519CBAA4DF4EFF34720D44 /* Pods-Mortgage Manager.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		FEDA29651ECD098E0012EBD2 = {
 			isa = PBXGroup;
 			children = (
 				FEDA29701ECD098E0012EBD2 /* Mortgage Manager */,
 				FEDA296F1ECD098E0012EBD2 /* Products */,
+				F60E6F70669C368B3733AE43 /* Pods */,
+				6D985450F81F59D8BD585C58 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +101,7 @@
 				FEDA29771ECD098E0012EBD2 /* Main.storyboard */,
 				FEDA297A1ECD098E0012EBD2 /* Assets.xcassets */,
 				FEDA297C1ECD098E0012EBD2 /* LaunchScreen.storyboard */,
+				FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */,
 				FEDA297F1ECD098E0012EBD2 /* Info.plist */,
 			);
 			path = "Mortgage Manager";
@@ -74,9 +114,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FEDA29821ECD098E0012EBD2 /* Build configuration list for PBXNativeTarget "Mortgage Manager" */;
 			buildPhases = (
+				1A93EDE20083D3B645278C0B /* [CP] Check Pods Manifest.lock */,
 				FEDA296A1ECD098E0012EBD2 /* Sources */,
 				FEDA296B1ECD098E0012EBD2 /* Frameworks */,
 				FEDA296C1ECD098E0012EBD2 /* Resources */,
+				34753E8FDC8C3D602D17FE14 /* [CP] Embed Pods Frameworks */,
+				88DD1BC0C1B7AAB69D2E987A /* [CP] Copy Pods Resources */,
+				FEDA29A11ECF95BA0012EBD2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -129,10 +173,59 @@
 				FEDA297E1ECD098E0012EBD2 /* LaunchScreen.storyboard in Resources */,
 				FEDA297B1ECD098E0012EBD2 /* Assets.xcassets in Resources */,
 				FEDA29791ECD098E0012EBD2 /* Main.storyboard in Resources */,
+				FEFF34981ECFEFDA007460DE /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1A93EDE20083D3B645278C0B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		34753E8FDC8C3D602D17FE14 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mortgage Manager/Pods-Mortgage Manager-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88DD1BC0C1B7AAB69D2E987A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mortgage Manager/Pods-Mortgage Manager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FEDA296A1ECD098E0012EBD2 /* Sources */ = {
@@ -264,6 +357,7 @@
 		};
 		FEDA29831ECD098E0012EBD2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 918B957264273AF3F1B66E9B /* Pods-Mortgage Manager.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Mortgage Manager/Info.plist";
@@ -276,6 +370,7 @@
 		};
 		FEDA29841ECD098E0012EBD2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 54519CBAA4DF4EFF34720D44 /* Pods-Mortgage Manager.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Mortgage Manager/Info.plist";
@@ -305,6 +400,7 @@
 				FEDA29841ECD098E0012EBD2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
