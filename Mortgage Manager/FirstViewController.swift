@@ -29,6 +29,9 @@ class FirstViewController: UIViewController {
     @IBOutlet weak var monthlyPayment: UILabel!
     @IBOutlet weak var mortgageLoanLength: UIButton!
     let selectLoanLength = DropDown()
+    
+    var lati : Double = 0.0
+    var long : Double = 0.0
    
     var coordinate = CLLocationCoordinate2D()
     var geocoder = CLGeocoder()
@@ -80,7 +83,6 @@ class FirstViewController: UIViewController {
                 self.processResponse(withPlacemarks: placemarks, error: error)
             }
         }
-        postToDatabase()
     }
      func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
         
@@ -98,11 +100,19 @@ class FirstViewController: UIViewController {
             if let location = location {
                 coordinate = location.coordinate
                 locationLabel.text = "\(coordinate.latitude) \(coordinate.longitude)"
+              
+                lati = coordinate.latitude
+                long = coordinate.longitude
+                
+                postToDatabase()
+                
             } else {
                 locationLabel.text = "No Matching Location Found"
             }
         }
     }
+    
+    
     
     //setting up dropdowns
     func setupStateDropDown(){
@@ -138,7 +148,7 @@ class FirstViewController: UIViewController {
     }
     
     func postToDatabase(){
-       
+        
         let calculation: NSDictionary = [
          "streetAddr" : street.text!,
          "cityAddr" : city.text!,
@@ -148,11 +158,17 @@ class FirstViewController: UIViewController {
          "anr" : annualInterestRate.text!,
          "dPayment" : downPaymentAmount.text!,
          "loanlength" : mortgageLoanLength.titleLabel!.text!,
-         "mAmount" : monthlyPayment.text! ]
+         "mAmount" : monthlyPayment.text!,
+         "latitude": lati,
+         "longitude": long]
         
-       let databaseRef = FIRDatabase.database().reference()
+        print("calculation: ")
+        print(calculation)
+        let databaseRef = FIRDatabase.database().reference()
         databaseRef.child("calculations").childByAutoId().setValue(calculation)
-    
+        
+//        var s = databaseRef.child("calculations").
+//        databaseRef.child("calculations").queryOrderedByKey("snap")
     }
     
     override func didReceiveMemoryWarning() {

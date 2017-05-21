@@ -15,6 +15,8 @@
 		FEDA297B1ECD098E0012EBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEDA297A1ECD098E0012EBD2 /* Assets.xcassets */; };
 		FEDA297E1ECD098E0012EBD2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEDA297C1ECD098E0012EBD2 /* LaunchScreen.storyboard */; };
 		FEFF34981ECFEFDA007460DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */; };
+		FEFF349C1ED10546007460DE /* InfoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEFF349B1ED10546007460DE /* InfoWindow.xib */; };
+		FEFF349E1ED1061A007460DE /* CustomInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFF349D1ED1061A007460DE /* CustomInfoWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +45,8 @@
 		FEDA297D1ECD098E0012EBD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FEDA297F1ECD098E0012EBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FEFF349B1ED10546007460DE /* InfoWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoWindow.xib; sourceTree = "<group>"; };
+		FEFF349D1ED1061A007460DE /* CustomInfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInfoWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,8 @@
 				FEDA297C1ECD098E0012EBD2 /* LaunchScreen.storyboard */,
 				FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */,
 				FEDA297F1ECD098E0012EBD2 /* Info.plist */,
+				FEFF349B1ED10546007460DE /* InfoWindow.xib */,
+				FEFF349D1ED1061A007460DE /* CustomInfoWindow.swift */,
 			);
 			path = "Mortgage Manager";
 			sourceTree = "<group>";
@@ -171,6 +177,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEDA297E1ECD098E0012EBD2 /* LaunchScreen.storyboard in Resources */,
+				FEFF349C1ED10546007460DE /* InfoWindow.xib in Resources */,
 				FEDA297B1ECD098E0012EBD2 /* Assets.xcassets in Resources */,
 				FEDA29791ECD098E0012EBD2 /* Main.storyboard in Resources */,
 				FEFF34981ECFEFDA007460DE /* GoogleService-Info.plist in Resources */,
@@ -232,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEFF349E1ED1061A007460DE /* CustomInfoWindow.swift in Sources */,
 				FEDA29761ECD098E0012EBD2 /* SecondViewController.swift in Sources */,
 				FEDA29721ECD098E0012EBD2 /* AppDelegate.swift in Sources */,
 				FEDA29741ECD098E0012EBD2 /* FirstViewController.swift in Sources */,

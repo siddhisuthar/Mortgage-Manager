@@ -11,52 +11,149 @@ import GoogleMaps
 import Firebase
 import FirebaseDatabase
 
-class SecondViewController: UIViewController {
+class SecondViewController: UIViewController, GMSMapViewDelegate {
 
-    var coordinatePassed = CLLocationCoordinate2D()
+    var tempItems = [NSDictionary]()
+    var coord =  [CLLocationCoordinate2D]()
+    //var mapView = GMSMapView()
+    var info : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadDatafromDatabase()
-     
+        
         let f: CGRect = self.view.frame
         let mapFrame: CGRect  = CGRect.init(x: f.origin.x, y: 50, width: f.size.width, height: f.size.height)
         
         let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-        let mapView = GMSMapView.map(withFrame: mapFrame, camera: camera)
-     
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
-        marker.title = "Sydney"
-        marker.snippet = "Australia"
-        marker.map = mapView
+        var mapView = GMSMapView.map(withFrame: mapFrame, camera: camera)
+        mapView.delegate = self
+        
+        mapView = loadDatafromDatabase(mapView)
+        print("coords: ")
+        print(self.coord)
        
         self.view.addSubview(mapView)
     }
+ 
     
-    func loadDatafromDatabase(){
+    func loadDatafromDatabase(_ mapview : GMSMapView) -> GMSMapView{
         
         let currentRef = FIRDatabase.database().reference().child("calculations")
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        var tempItems = [NSDictionary]()
+        
+        //for bounds
+        
+    
+        var bounds = GMSCoordinateBounds()
+        
         currentRef.observe(.value, with: { snapshot in
             
             for item in snapshot.children {
+                
+                let snap = item as! FIRDataSnapshot
+               let uid = snap.key
+                
                 let child = item as! FIRDataSnapshot
+                
+               print("child: ", child as! AnyObject)
                 let dict = child.value as! NSDictionary
-                tempItems.append(dict)
+                
+                print("dict:  ", dict)
+                
+                self.tempItems.append(dict)
+               
+                let getLatitude = dict.value(forKey: "latitude")
+                let getLongitude = dict.value(forKey: "longitude")
+               
+                let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2D(latitude: getLatitude as! CLLocationDegrees, longitude: getLongitude as! CLLocationDegrees)
+                marker.title = dict.value(forKey: "mAmount") as? String
+                
+                let s : String = dict.value(forKey: "streetAddr") as! String
+                let c : String = dict.value(forKey: "cityAddr") as! String
+                let a : String = dict.value(forKey: "anr") as! String
+                let l : String = dict.value(forKey: "hPrice") as! String
+                let m : String = dict.value(forKey: "mAmount") as! String
+
+                let totalString: String = "\(s) \(c) \nANR: \(a) \nHousePrice: \(l) \nMonthlyPayment: \(m)"
+                
+                self.info = totalString
+                
+               // marker.snippet = totalString
+                marker.snippet = uid
+                
+                marker.map = mapview
+                bounds = bounds.includingCoordinate(marker.position)
+                
             }
+            let update = GMSCameraUpdate.fit(bounds, withPadding: 75)
+            mapview.animate(with: update)
+            
+          //  return tempItems
             print("temp items: ")
-            print(tempItems)
+            print(self.tempItems)
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
-       // forward geocoding
-        
+       
+        return mapview
     }
     
+    func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+        
+        let db = FIRDatabase.database().reference().child("calculations").child(marker.snippet as! String)
+        /*
+         postsRef.observeSingleEventOfType(.Value, withBlock { snapshot in
+         
+         for child in snapshot.children {
+         */
+        db.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            
+            
+//           let dict = snapshot.value as! NSDictionary
+  //          print("\nDICT:\n \(dict)")
     
-
-    override func didReceiveMemoryWarning() {
+            var dict = [NSDictionary]()
+            
+            for child in snapshot.children{
+                dict.append((child as! AnyObject) as! NSDictionary)
+            }
+            
+            print("\n DICT: \n \(dict)")
+        })
+        
+//        let alert = UIAlertController(title: "Property info", message: , preferredStyle: UIAlertControllerStyle.actionSheet)
+//        
+//        let action1 = UIAlertAction(title: "OK", style: .default, handler: reset)
+//        
+//        let action2 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
+//        
+//        
+//        
+//        alert.addAction(action1)
+//        
+//        alert.addAction(action2)
+//        
+//        
+//        
+//        
+//        
+//        self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        
+//    }
+    
+//    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+//       
+//        let infoWindow = Bundle.main.loadNibNamed(<#T##name: String##String#>, owner: self, options: nil)
+////        let infoWindow = Bundle.mainBundle().loadNibNamed("nibName", owner: self, options: nil).first as! ClassName
+//        infoWindow.name.text = "title"
+//        infoWindow.address.text = "relevant address"
+//        infoWindow.photo.image = UIImage(named: "imageName")
+//        return infoWindow
+//        
+//    }
+  
+    func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -64,3 +161,4 @@ class SecondViewController: UIViewController {
 
 }
 
+}
