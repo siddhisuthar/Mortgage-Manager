@@ -17,6 +17,7 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
     var coord =  [CLLocationCoordinate2D]()
     //var mapView = GMSMapView()
     var info : String = ""
+    var markerKey = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +56,7 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
                 
                 let child = item as! DataSnapshot
                 
-               print("child: ", child as! AnyObject)
+               print("child: ", child as AnyObject)
                 let dict = child.value as! NSDictionary
                 
                 print("dict:  ", dict)
@@ -100,7 +101,9 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         
-        let db = Database.database().reference().child("calculations").child(marker.snippet as! String)
+        self.markerKey = (marker.snippet)!
+        
+        let db = Database.database().reference().child("calculations").child(marker.snippet!)
         /*
          postsRef.observeSingleEventOfType(.Value, withBlock { snapshot in
          
@@ -116,30 +119,74 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
             var dict = [NSDictionary]()
             
             for child in snapshot.children{
-                dict.append((child as! AnyObject) as! NSDictionary)
+                dict.append((child as AnyObject) as! NSDictionary)
             }
             
             print("\n DICT: \n \(dict)")
         })
         
-        let alert = UIAlertController(title: "Property info", message: "some message", preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let action1 = UIAlertAction(title: "OK", style: .default, handler: nil)
-        let action2 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
+        let s : String = dict.value(forKey: "streetAddr") as! String
+        let c : String = dict.value(forKey: "cityAddr") as! String
+        let a : String = dict.value(forKey: "anr") as! String
+        let l : String = dict.value(forKey: "loanAmt") as! String
+        let m : String = dict.value(forKey: "mAmount") as! String
+        
+        let totalString: String = "\(s) \(c) \n ANR: \(a) \n loanAmount: \(l) \nMonthlyPayment: \(m)"
+        
+        let alert = UIAlertController(title: "Property info", message: totalString , preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let action1 = UIAlertAction(title: "EDIT", style: .default, handler: editMarker)
+        let action2 = UIAlertAction(title: "DELETE", style: .default, handler: deleteMarker)
+        let action3 = UIAlertAction(title: "CANCEL", style: .default, handler: cancelMarker)
+        
         alert.addAction(action1)
         alert.addAction(action2)
-        self.present(alert, animated: true, completion: nil)
-//        self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
+        alert.addAction(action3)
         
-//    }
+        self.present(alert, animated: true, completion: nil)
+       
     
   
+   
+
+}
+    
     func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    
+    func editMarker () {
+        
+        if !(self.markerKey.isEmpty){
+            let storyb = self.storyboard?.instantiateViewController(withIdentifier: "FirstViewController")
+            storyb?.setValue(self.markerKey as! String, forKey: "dbkey")
+            
+            self.performSegue(withIdentifier: "mapsToFirst", sender: self)
+        }
+        
+        
+    }
+    
+    
+    func deleteMarker () {
+        if !(self.markerKey.isEmpty) {
+            Database.database().reference().child("calculations").child(markerKey as! String).removeValue()
+            
+            self.viewDidLoad()
+        }
+        
+    }
+    
+    func cancelMarker () {
+        
+        if !(self.markerKey.isEmpty){
+            self.markerKey = ""
+        }
+    }
 
-
-}
 
 }

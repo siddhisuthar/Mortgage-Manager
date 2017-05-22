@@ -50,6 +50,9 @@ class FirstViewController: UIViewController {
         selectStateDropdown.show()
     }
     
+    
+    
+    
     @IBAction func calculatePayment(_ sender: Any) {
 
         let lengthOfMortgageLoan = Int(mortgageLoanLength.titleLabel!.text!)
@@ -110,6 +113,9 @@ class FirstViewController: UIViewController {
         }
     }
     
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -118,10 +124,13 @@ class FirstViewController: UIViewController {
         setupPropertyTypeDropDown()
         
         if !(dbkey.isEmpty){
-            //preFillForm()
+            
+            prefill()
         }
     }
 
+    
+    //save button click
     @IBAction func didTapSave(_ sender: Any) {
         if (street.text?.characters.count)!>0 && (city.text?.characters.count)!>0 && (zipcode.text?.characters.count)!>0 {
             
@@ -131,7 +140,16 @@ class FirstViewController: UIViewController {
             geocoder.geocodeAddressString(address) { (placemarks, error) in
                 // Process Response
                 self.processResponse(withPlacemarks: placemarks, error: error)
+                
+                self.performSegue(withIdentifier: "jumpToMapSeg", sender: self)
+                
             }
+        }else {
+            let alert4 = UIAlertController(title: "Oops!", message: "Please enter valid address", preferredStyle: UIAlertControllerStyle.actionSheet)
+            let action4 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
+            alert4.addAction(action4)
+            
+            self.present(alert4, animated: true, completion: nil)
         }
     }
     
@@ -202,7 +220,7 @@ class FirstViewController: UIViewController {
     func postToDatabase(){
         
         let calculation: NSDictionary = [
-            "property type" : propertyType.titleLabel!.text!,
+            "propertyType" : propertyType.titleLabel!.text!,
          "streetAddr" : street.text!,
          "cityAddr" : city.text!,
          "stateAddr" : selectState.titleLabel!.text!,
@@ -219,16 +237,20 @@ class FirstViewController: UIViewController {
         print("calculation: ")
         print(calculation)
         let databaseRef = Database.database().reference()
-        databaseRef.child("calculations").childByAutoId().setValue(calculation)
         
         if !(dbkey.isEmpty) {
-            //databaseRef.child("calculations").child(dbkey as! String).removeValue(completionBlock: <#T##(Error?, DatabaseReference) -> Void#>)
-            //delete query
+            
+            databaseRef.child("calculations").child(dbkey as! String).setValue(calculation)
+            
+            print(" \n existing child updated")
+        }else{
+        
+        databaseRef.child("calculations").childByAutoId().setValue(calculation)
+            print("\n new child created ")
         }
         
     
     clearFlags()
-        jumpToMaps()
         
     }
     
@@ -245,17 +267,44 @@ class FirstViewController: UIViewController {
                        print("\n ALERT for clear flags called !! \n")
     }
     
-    func jumpToMaps(){
-        //this segue was created in story board
-        //by dragging top controller button on first view controller to map view controller
-        //you can give an id to it, in our case it is jumpToMapSeg
+    
+    
+    func prefill(){
         
-        self.performSegue(withIdentifier: "jumpToMapSeg", sender: self)
+        let currentRef = Database.database().reference().child("calculations")
         
-                       print("\n ALERT for seque called !! \n")
+        currentRef.observe(.value, with: { snapshot in
         
-        
-    }
+            for item in snapshot.children {
+                
+                let snap = item as! DataSnapshot
+                
+                if (snap.key as? String) == self.dbkey {
+                
+                    let dict = (item as AnyObject).value as! NSDictionary
+                    
+                    propertyType.titleLabel!.text! = dict.value[forKey: "propertyType"]
+                    street.text! = dict.value[forKey: "streetAddr"]
+                    city.text! = dict.value[forKey: "cityAddr"]
+                    selectState.titleLabel!.text! = dict.value[forKey: "stateAddr"]
+                    zipcode.text! = dict.value[forKey: "zip"]
+                    housePrice.text! = dict.value[forKey: "hPrice"]
+                    annualInterestRate.text! = dict.value[forKey: "anr"]
+                    downPaymentAmount.text! = dict.value[forKey: "dpayment"]
+                    mortgageLoanLength.titleLabel!.text! = dict.value[forKey: "loanlength"]
+                    monthlyPayment.text! = dict.value[forKey: "mAmount"]
 
+                }
+                    
+                
+                
+                
+            }
+            
+        })
+        
+    
+   
 }
 
+}
