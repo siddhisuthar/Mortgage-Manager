@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -44,7 +44,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hxn-pl-G01">
-                                <rect key="frame" x="8" y="143" width="358" height="30"/>
+                                <rect key="frame" x="9" y="143" width="356" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Z9z-oe-5XN"/>
                                 </constraints>
@@ -64,8 +64,8 @@
                                     <action selector="selectStateClick:" destination="9pv-A4-QxB" eventType="touchUpInside" id="jYK-hq-U0T"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="House Price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9dR-YD-nKJ">
-                                <rect key="frame" x="9" y="306" width="359" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="House Price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9dR-YD-nKJ">
+                                <rect key="frame" x="10" y="282" width="357" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="RIl-lz-zTL"/>
                                 </constraints>
@@ -73,8 +73,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Down Payment Amount" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9nI-7d-IYr">
-                                <rect key="frame" x="9" y="382" width="359" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Down Payment Amount" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9nI-7d-IYr">
+                                <rect key="frame" x="6" y="382" width="357" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="TrD-SD-IvL"/>
                                 </constraints>
@@ -82,8 +82,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Annual Interest Rate" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tig-dx-RA6">
-                                <rect key="frame" x="8" y="344" width="360" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Annual Interest Rate" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tig-dx-RA6">
+                                <rect key="frame" x="6" y="332" width="360" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="kXY-VT-Icu"/>
                                 </constraints>
@@ -91,8 +91,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KP7-ra-IPg">
-                                <rect key="frame" x="156" y="480" width="64" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KP7-ra-IPg">
+                                <rect key="frame" x="153" y="464" width="64" height="30"/>
                                 <state key="normal" title="Calculate"/>
                                 <connections>
                                     <action selector="calculatePayment:" destination="9pv-A4-QxB" eventType="touchUpInside" id="suM-ag-uBr"/>
@@ -104,8 +104,8 @@
                                 <color key="textColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjA-2I-ND3">
-                                <rect key="frame" x="165" y="503" width="109" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjA-2I-ND3">
+                                <rect key="frame" x="166" y="524" width="109" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="109" id="Azo-Xp-Hz0"/>
                                 </constraints>
@@ -114,7 +114,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWA-tN-3xD">
-                                <rect key="frame" x="171" y="560" width="35" height="32"/>
+                                <rect key="frame" x="170.5" y="560" width="35" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
@@ -122,7 +122,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZS0-Du-Qgv">
-                                <rect key="frame" x="68" y="610" width="240" height="0.0"/>
+                                <rect key="frame" x="68" y="610" width="239" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -145,8 +145,8 @@
                                     <navigationItem title="Calculation" id="H2G-gs-Crn"/>
                                 </items>
                             </navigationBar>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Zipcode" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jB5-lG-GfE">
-                                <rect key="frame" x="6" y="219" width="360" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Zipcode" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jB5-lG-GfE">
+                                <rect key="frame" x="8" y="219" width="359" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="i74-gC-dgb"/>
                                 </constraints>
@@ -212,6 +212,7 @@
                         <outlet property="selectState" destination="F88-XL-nB7" id="SRU-rj-LLC"/>
                         <outlet property="street" destination="T96-38-Ffa" id="Y1e-eb-Qmr"/>
                         <outlet property="zipcode" destination="jB5-lG-GfE" id="0gf-qp-tEa"/>
+                        <segue destination="8rJ-Kc-sve" kind="presentation" identifier="jumpToMapSeg" id="zfO-43-XwE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -240,7 +241,7 @@
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nKP-VD-joQ">
-                                <rect key="frame" x="0.0" y="50" width="375" height="568"/>
+                                <rect key="frame" x="0.0" y="50" width="375" height="617"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -285,4 +286,7 @@
         <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="zfO-43-XwE"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -38,7 +38,7 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
     
     func loadDatafromDatabase(_ mapview : GMSMapView) -> GMSMapView{
         
-        let currentRef = FIRDatabase.database().reference().child("calculations")
+        let currentRef = Database.database().reference().child("calculations")
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         //for bounds
@@ -50,10 +50,10 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
             
             for item in snapshot.children {
                 
-                let snap = item as! FIRDataSnapshot
+                let snap = item as! DataSnapshot
                let uid = snap.key
                 
-                let child = item as! FIRDataSnapshot
+                let child = item as! DataSnapshot
                 
                print("child: ", child as! AnyObject)
                 let dict = child.value as! NSDictionary
@@ -100,7 +100,7 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         
-        let db = FIRDatabase.database().reference().child("calculations").child(marker.snippet as! String)
+        let db = Database.database().reference().child("calculations").child(marker.snippet as! String)
         /*
          postsRef.observeSingleEventOfType(.Value, withBlock { snapshot in
          
@@ -122,36 +122,17 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
             print("\n DICT: \n \(dict)")
         })
         
-//        let alert = UIAlertController(title: "Property info", message: , preferredStyle: UIAlertControllerStyle.actionSheet)
-//        
-//        let action1 = UIAlertAction(title: "OK", style: .default, handler: reset)
-//        
-//        let action2 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
-//        
-//        
-//        
-//        alert.addAction(action1)
-//        
-//        alert.addAction(action2)
-//        
-//        
-//        
-//        
-//        
+        let alert = UIAlertController(title: "Property info", message: "some message", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let action1 = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let action2 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
+        alert.addAction(action1)
+        alert.addAction(action2)
+        self.present(alert, animated: true, completion: nil)
 //        self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
         
 //    }
     
-//    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-//       
-//        let infoWindow = Bundle.main.loadNibNamed(<#T##name: String##String#>, owner: self, options: nil)
-////        let infoWindow = Bundle.mainBundle().loadNibNamed("nibName", owner: self, options: nil).first as! ClassName
-//        infoWindow.name.text = "title"
-//        infoWindow.address.text = "relevant address"
-//        infoWindow.photo.image = UIImage(named: "imageName")
-//        return infoWindow
-//        
-//    }
   
     func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

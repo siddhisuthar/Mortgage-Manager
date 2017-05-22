@@ -35,6 +35,9 @@ class FirstViewController: UIViewController {
    
     var coordinate = CLLocationCoordinate2D()
     var geocoder = CLGeocoder()
+    
+    var dbkey : String = ""
+    var loanAmt : Double = 0.0
    
     
     @IBAction func selectPropertyType(_ sender: Any) {
@@ -57,10 +60,53 @@ class FirstViewController: UIViewController {
             let months: Double = Double(lengthOfMortgageLoan! * 12);
             
             let loanAmount = Double(housePrice.text!)! - Double(downPaymentAmount.text!)!;
+            self.loanAmt = loanAmount
             
             let monthlyPaymentAmount: Double = (loanAmount * monthlyIntRate) / (1 - pow((1+monthlyIntRate), -months))
             
-            monthlyPayment.text = String(format: "%.2f", monthlyPaymentAmount)
+            //to check if the monthly amount is greater than zero
+            if monthlyPaymentAmount < 0.00 {
+                
+                //pop an alert
+                let alert1 = UIAlertController(title: "Oops!", message: "Please enter valid amount !", preferredStyle: UIAlertControllerStyle.actionSheet)
+                let action1 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
+                alert1.addAction(action1)
+                self.present(alert1, animated: true, completion: nil)
+                
+               // self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
+                
+                print("\n ALERT for invalid amount called !! \n")
+            }
+            else if (street.text?.characters.count)!>0 && (city.text?.characters.count)!>0 && (zipcode.text?.characters.count)!>0 {
+             
+                //pop an alert
+                let alert2 = UIAlertController(title: "Oops!", message: "Please enter valid address !", preferredStyle: UIAlertControllerStyle.actionSheet)
+                let action2 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
+                alert2.addAction(action2)
+                //self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
+                self.present(alert2, animated: true, completion: nil)
+                
+                               print("\n ALERT for invalid address called !! \n")
+                
+            }
+            else if (propertyType.titleLabel?.text?.range(of: "House") != nil) || (propertyType.titleLabel?.text?.range(of: "Townhouse") != nil) || (propertyType.titleLabel?.text?.range(of: "Condo") != nil) {
+                
+                //pop an alert
+                let alert3 = UIAlertController(title: "Oops!", message: "Please select property type.", preferredStyle: UIAlertControllerStyle.actionSheet)
+                let action3 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
+                alert3.addAction(action3)
+                self.present(alert3, animated: true, completion: nil)
+                               print("\n ALERT for invalid property type called !! \n")
+                
+            }
+            else{
+            
+                monthlyPayment.text = String(format: "%.2f", monthlyPaymentAmount)
+                
+                print("\n monthly payment: \(monthlyPaymentAmount)")
+            
+            }
+            
         }
     }
     
@@ -70,6 +116,10 @@ class FirstViewController: UIViewController {
         setupStateDropDown()
         setupLoanLengthDropDown()
         setupPropertyTypeDropDown()
+        
+        if !(dbkey.isEmpty){
+            //preFillForm()
+        }
     }
 
     @IBAction func didTapSave(_ sender: Any) {
@@ -84,6 +134,8 @@ class FirstViewController: UIViewController {
             }
         }
     }
+    
+    
      func processResponse(withPlacemarks placemarks: [CLPlacemark]?, error: Error?) {
         
         if let error = error {
@@ -119,7 +171,7 @@ class FirstViewController: UIViewController {
     
         selectStateDropdown.anchorView = selectState
         selectStateDropdown.direction = .bottom
-        selectStateDropdown.dataSource = ["CA", "AZ", "TX"]
+        selectStateDropdown.dataSource = ["AL", "AK", "AZ", "AR", "CA", "CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
         selectStateDropdown.bottomOffset = CGPoint(x: 0, y: selectState.bounds.height)
         
         selectStateDropdown.selectionAction = { [unowned self] (index, item) in
@@ -150,6 +202,7 @@ class FirstViewController: UIViewController {
     func postToDatabase(){
         
         let calculation: NSDictionary = [
+            "property type" : propertyType.titleLabel!.text!,
          "streetAddr" : street.text!,
          "cityAddr" : city.text!,
          "stateAddr" : selectState.titleLabel!.text!,
@@ -159,23 +212,50 @@ class FirstViewController: UIViewController {
          "dPayment" : downPaymentAmount.text!,
          "loanlength" : mortgageLoanLength.titleLabel!.text!,
          "mAmount" : monthlyPayment.text!,
+         "loanAmount" : self.loanAmt as Double!,
          "latitude": lati,
          "longitude": long]
         
         print("calculation: ")
         print(calculation)
-        let databaseRef = FIRDatabase.database().reference()
+        let databaseRef = Database.database().reference()
         databaseRef.child("calculations").childByAutoId().setValue(calculation)
         
-//        var s = databaseRef.child("calculations").
-//        databaseRef.child("calculations").queryOrderedByKey("snap")
+        if !(dbkey.isEmpty) {
+            //databaseRef.child("calculations").child(dbkey as! String).removeValue(completionBlock: <#T##(Error?, DatabaseReference) -> Void#>)
+            //delete query
+        }
+        
+    
+    clearFlags()
+        jumpToMaps()
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    func clearFlags() {
+        //necessary step to clear the environmental variable after usage.
+        self.dbkey = ""
+        self.loanAmt = 0.0
+        
+                       print("\n ALERT for clear flags called !! \n")
+    }
+    
+    func jumpToMaps(){
+        //this segue was created in story board
+        //by dragging top controller button on first view controller to map view controller
+        //you can give an id to it, in our case it is jumpToMapSeg
+        
+        self.performSegue(withIdentifier: "jumpToMapSeg", sender: self)
+        
+                       print("\n ALERT for seque called !! \n")
+        
+        
+    }
 
 }
 

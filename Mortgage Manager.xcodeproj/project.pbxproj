@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F3C61461ED29C09007C95CB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F3C61451ED29C09007C95CB /* GoogleService-Info.plist */; };
 		971A71C304D8E989C56B7F92 /* Pods_Mortgage_Manager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A6552860CD28244355C695 /* Pods_Mortgage_Manager.framework */; };
 		FEDA29721ECD098E0012EBD2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA29711ECD098E0012EBD2 /* AppDelegate.swift */; };
 		FEDA29741ECD098E0012EBD2 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA29731ECD098E0012EBD2 /* FirstViewController.swift */; };
@@ -14,7 +15,6 @@
 		FEDA29791ECD098E0012EBD2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEDA29771ECD098E0012EBD2 /* Main.storyboard */; };
 		FEDA297B1ECD098E0012EBD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEDA297A1ECD098E0012EBD2 /* Assets.xcassets */; };
 		FEDA297E1ECD098E0012EBD2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEDA297C1ECD098E0012EBD2 /* LaunchScreen.storyboard */; };
-		FEFF34981ECFEFDA007460DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */; };
 		FEFF349C1ED10546007460DE /* InfoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEFF349B1ED10546007460DE /* InfoWindow.xib */; };
 		FEFF349E1ED1061A007460DE /* CustomInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFF349D1ED1061A007460DE /* CustomInfoWindow.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		13A6552860CD28244355C695 /* Pods_Mortgage_Manager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mortgage_Manager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F3C61451ED29C09007C95CB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		54519CBAA4DF4EFF34720D44 /* Pods-Mortgage Manager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mortgage Manager.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mortgage Manager/Pods-Mortgage Manager.release.xcconfig"; sourceTree = "<group>"; };
 		918B957264273AF3F1B66E9B /* Pods-Mortgage Manager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mortgage Manager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mortgage Manager/Pods-Mortgage Manager.debug.xcconfig"; sourceTree = "<group>"; };
 		FEDA296E1ECD098E0012EBD2 /* Mortgage Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mortgage Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,7 +45,6 @@
 		FEDA297A1ECD098E0012EBD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FEDA297D1ECD098E0012EBD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FEDA297F1ECD098E0012EBD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FEFF349B1ED10546007460DE /* InfoWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoWindow.xib; sourceTree = "<group>"; };
 		FEFF349D1ED1061A007460DE /* CustomInfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInfoWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,7 +105,7 @@
 				FEDA29771ECD098E0012EBD2 /* Main.storyboard */,
 				FEDA297A1ECD098E0012EBD2 /* Assets.xcassets */,
 				FEDA297C1ECD098E0012EBD2 /* LaunchScreen.storyboard */,
-				FEFF34971ECFEFDA007460DE /* GoogleService-Info.plist */,
+				3F3C61451ED29C09007C95CB /* GoogleService-Info.plist */,
 				FEDA297F1ECD098E0012EBD2 /* Info.plist */,
 				FEFF349B1ED10546007460DE /* InfoWindow.xib */,
 				FEFF349D1ED1061A007460DE /* CustomInfoWindow.swift */,
@@ -180,7 +180,7 @@
 				FEFF349C1ED10546007460DE /* InfoWindow.xib in Resources */,
 				FEDA297B1ECD098E0012EBD2 /* Assets.xcassets in Resources */,
 				FEDA29791ECD098E0012EBD2 /* Main.storyboard in Resources */,
-				FEFF34981ECFEFDA007460DE /* GoogleService-Info.plist in Resources */,
+				3F3C61461ED29C09007C95CB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
