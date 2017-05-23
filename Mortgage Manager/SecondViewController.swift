@@ -91,52 +91,67 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         
         self.markerKey = (marker.snippet! as? String)!
+        print("\n NOW Marker key is : \(self.markerKey)!")
         
-        let db = Database.database().reference().child("calculations").child((marker.snippet! as? String)!)
+        let db = Database.database().reference().child("calculations")
         
-        db.observeSingleEvent(of: .value, with: { (snapshot) in
+        db.observeSingleEvent(of: .value, with: { snapshot in
             
             //var dict = [NSDictionary]()
             
-            let snap = snapshot.children
-            let child = snap as! DataSnapshot
-            let dict = child.value as! NSDictionary
-        
-            let s : String = dict.value(forKey: "streetAddr") as! String
-            let c : String = dict.value(forKey: "cityAddr") as! String
-            let a : String = dict.value(forKey: "anr") as! String
-            let l : String = dict.value(forKey: "loanAmt") as! String
-            let m : String = dict.value(forKey: "mAmount") as! String
+            for item in snapshot.children {
+                
+                let child = item as! DataSnapshot
+                
+                if child.key == self.markerKey {
+                    
+                    let dict = child.value as! NSDictionary
+                    
+                    let s : String = dict.value(forKey: "streetAddr") as! String
+                    let c : String = dict.value(forKey: "cityAddr") as! String
+                    let a : String = String(describing: dict.value(forKey: "anr")!) as! String
+                    let l : String = String(describing: dict.value(forKey: "loanAmt")!) as! String
+                    let m : String = String(describing: dict.value(forKey: "mAmount")!) as! String
+                    
+                    let totalString: String = "\(s) \(c) \n ANR: \(a) \n loanAmount: \(l) \nMonthlyPayment: \(m)"
+                    
+                    self.info = totalString
+                    
+                    print("\n TOTAL STRING \n : \(totalString)")
+                    print("\n DICT: \n \(dict)")
+                    
+                    let alert = UIAlertController(title: "Property info", message: self.info , preferredStyle: UIAlertControllerStyle.actionSheet)
+                    
+                    alert.addAction(UIAlertAction(title:"EDIT", style : UIAlertActionStyle.default , handler : {
+                        ACTION in
+                        self.editMarker()
+                    }))
+                    
+                    alert.addAction(UIAlertAction(title:"DELETE", style : UIAlertActionStyle.destructive , handler : {
+                        ACTION in
+                        self.deleteMarker()
+                        
+                    }))
+                    
+                    alert.addAction(UIAlertAction(title:"CANCEL", style : UIAlertActionStyle.default , handler : { ACTION in
+                        
+                        self.markerKey = ""
+                        
+                    }
+                    ))
+                    
+                    self.present(alert, animated: true, completion: nil)
+
+                
+                }else{
+                    print("\n marker key did not match child key !!")
+                }
+                
+            }
             
-            let totalString: String = "\(s) \(c) \n ANR: \(a) \n loanAmount: \(l) \nMonthlyPayment: \(m)"
-            
-            self.info = totalString
-            
-            print("\n TOTAL STRING \n : \(totalString)")
-            print("\n DICT: \n \(dict)")
-        })
+          
         
-        
-        let alert = UIAlertController(title: "Property info", message: info , preferredStyle: UIAlertControllerStyle.actionSheet)
-        
-        alert.addAction(UIAlertAction(title:"EDIT", style : UIAlertActionStyle.default , handler : {
-            ACTION in
-            self.editMarker()
-        }))
-        
-        alert.addAction(UIAlertAction(title:"DELETE", style : UIAlertActionStyle.destructive , handler : {
-            ACTION in
-            self.deleteMarker()
-        }))
-        
-        alert.addAction(UIAlertAction(title:"CANCEL", style : UIAlertActionStyle.default , handler : nil
-        ))
-        
-        self.present(alert, animated: true, completion: nil)
-       
-    
-  
-   
+                    })
 
 }
     
@@ -153,19 +168,40 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
             let storyb = self.storyboard?.instantiateViewController(withIdentifier: "FirstViewController")
             storyb?.setValue(self.markerKey as! String, forKey: "dbkey")
             
-            self.markerKey = ""
+            let delay = DispatchTime.now() + 0.5
+            DispatchQueue.main.asyncAfter(deadline: delay) {
             
-            self.performSegue(withIdentifier: "mapsToFirst", sender: self)
+                print("\n NOW DB key of first controller is :")
+                print(storyb?.value(forKey: "markeyKey")! as! String)
+                
+                print("\n db key on second view controller is:")
+                print(self.markerKey as! String)
+                
+                self.performSegue(withIdentifier: "mapsToFirst", sender: self)
+                
+            
+            }
         }
-        
-        
     }
     
     
     func deleteMarker () {
         if !(self.markerKey.isEmpty) {
-            Database.database().reference().child("calculations").child(markerKey as! String).removeValue()
-            self.markerKey = ""
+            Database.database().reference().child("calculations").child(markerKey as! String).removeValue(completionBlock: { (error, ref) in
+                
+                    if error != nil {
+                        
+                        print("\n error during deleting child : \(String(describing: error))")
+                    }else {
+                        print("\n marker deleted : \(self.markerKey)!")
+                }
+
+                     self.markerKey = ""
+                
+            })
+            
+           
+           
             self.viewDidLoad()
         }
         

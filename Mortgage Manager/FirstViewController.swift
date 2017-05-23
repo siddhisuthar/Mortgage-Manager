@@ -214,22 +214,23 @@ class FirstViewController: UIViewController {
         if self.lati != 0.0 && self.long != 0.0 {
         
         let calculation: NSDictionary = [
-            "propertyType" : propertyType.titleLabel!.text!,
-         "streetAddr" : street.text!,
-         "cityAddr" : city.text!,
-         "stateAddr" : selectState.titleLabel!.text!,
-         "zip" : zipcode.text!,
-         "hPrice" : housePrice.text!,
-         "anr" : annualInterestRate.text!,
-         "dPayment" : downPaymentAmount.text!,
-         "loanlength" : mortgageLoanLength.titleLabel!.text!,
-         "mAmount" : monthlyPayment.text!,
+            "propertyType" : self.propertyType.titleLabel!.text!,
+         "streetAddr" : self.street.text!,
+         "cityAddr" : self.city.text!,
+         "stateAddr" : self.selectState.titleLabel!.text!,
+         "zip" : self.zipcode.text!,
+         "hPrice" : self.housePrice.text!,
+         "anr" : self.annualInterestRate.text!,
+         "dPayment" : self.downPaymentAmount.text!,
+         "loanlength" : self.mortgageLoanLength.titleLabel!.text!,
+         "mAmount" : self.monthlyPayment.text!,
          "loanAmount" : self.loanAmt as Double!,
-         "latitude": lati,
-         "longitude": long]
+         "latitude": self.lati,
+         "longitude": self.long]
         
         print("calculation: ")
         print(calculation)
+            
         let databaseRef = Database.database().reference()
         
         if !(dbkey.isEmpty) {
@@ -247,7 +248,7 @@ class FirstViewController: UIViewController {
     clearFlags()
         }
         else {
-            giveAlert(" Please enter valid address and try again !")
+            giveAlert(" Please enter valid address, calculate and try again !")
         }
         
     }
@@ -273,21 +274,21 @@ class FirstViewController: UIViewController {
             
             let child = snapshot as DataSnapshot
             
-        let dict = child as? NSDictionary
+        let dict = child.children
             
-            self.propertyType.titleLabel!.text! = dict!.value(forKey: "propertyType") as! String
-            self.street.text! = dict!.value(forKey: "streetAddr") as! String
-            self.city.text! = dict!.value(forKey: "cityAddr") as! String
-            self.selectState.titleLabel!.text! = dict!.value(forKey: "stateAddr") as! String
-            self.zipcode.text! = dict!.value(forKey: "zip") as! String
-            self.housePrice.text! = dict!.value(forKey: "hPrice") as! String
-            self.annualInterestRate.text! = dict!.value(forKey: "anr") as! String
-            self.downPaymentAmount.text! = dict!.value(forKey: "dpayment") as! String
-            self.mortgageLoanLength.titleLabel!.text! = dict!.value(forKey: "loanlength") as! String
-            self.monthlyPayment.text! = dict!.value(forKey: "mAmount") as! String
+            self.propertyType.titleLabel!.text! = dict.value(forKey: "propertyType") as! String
+            self.street.text! = dict.value(forKey: "streetAddr") as! String
+            self.city.text! = dict.value(forKey: "cityAddr") as! String
+            self.selectState.titleLabel!.text! = dict.value(forKey: "stateAddr") as! String
+            self.zipcode.text! = String(describing: dict.value(forKey: "zip"))
+            self.housePrice.text! = String(describing: dict.value(forKey: "hPrice"))
+            self.annualInterestRate.text! = String(describing: dict.value(forKey: "anr"))
+            self.downPaymentAmount.text! = String(describing: dict.value(forKey: "dPayment"))
+            self.mortgageLoanLength.titleLabel!.text! = String(describing: dict.value(forKey: "loanlength"))
+            self.monthlyPayment.text! = ""
 
             
-            
+            print("INSIDE PREFILL")
             
         })
         
@@ -317,6 +318,9 @@ class FirstViewController: UIViewController {
         
         let state : Bool = (self.selectState.titleLabel?.text?.characters.count)! < 3
         
+        print("\n check address says address is : ")
+        print(pt && st && city && zip && state)
+        
         return pt && st && city && zip && state
         
         
@@ -324,11 +328,20 @@ class FirstViewController: UIViewController {
     
     func checkAmount () -> Bool {
         
+        if ((self.housePrice.text?.characters.count)! < 1) || ((self.downPaymentAmount.text?.characters.count)! < 1) || ((self.annualInterestRate.text?.characters.count)! < 1) || ((self.mortgageLoanLength.titleLabel?.text?.characters.count)! > 2) {
+            
+            return false;
+        }
+        
+        
         let hp : Bool = Double(self.housePrice.text!)! > 0.0
         let dp : Bool = Double(self.downPaymentAmount.text!)! > 0.0
         let anr : Bool = Double(self.annualInterestRate.text!)! > 0.0
         let loan : Bool = Double(self.housePrice.text!)! > Double(self.downPaymentAmount.text!)!
         let period : Bool = Int64((self.mortgageLoanLength.titleLabel?.text?.characters.count)!) < 3
+        
+        print("\n check amount says amount is : ")
+        print(hp && dp && anr && loan && period)
         
         return hp && dp && anr && loan && period
         
