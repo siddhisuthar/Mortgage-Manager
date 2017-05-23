@@ -38,6 +38,7 @@ class FirstViewController: UIViewController {
     
     var dbkey : String = ""
     var loanAmt : Double = 0.0
+    var mAmt : Double = 0.0
    
     
     @IBAction func selectPropertyType(_ sender: Any) {
@@ -54,15 +55,24 @@ class FirstViewController: UIViewController {
     
     
     @IBAction func calculatePayment(_ sender: Any) {
-
-        let lengthOfMortgageLoan = Int(mortgageLoanLength.titleLabel!.text!)
         
-        if ((housePrice.text?.characters.count)!>0 && (downPaymentAmount.text?.characters.count)!>0 && (annualInterestRate.text?.characters.count)!>0 && lengthOfMortgageLoan! != 0) {
-           
-            let monthlyIntRate: Double = Double(annualInterestRate.text!)! / (12 * 100);
-            let months: Double = Double(lengthOfMortgageLoan! * 12);
+        let validAddr : Bool = checkAddress()
+        let validAmt : Bool = checkAmount()
+        
+        if !validAddr {
+            giveAlert("Please enter valid address !")
             
-            let loanAmount = Double(housePrice.text!)! - Double(downPaymentAmount.text!)!;
+        }
+        else if !validAmt {
+            giveAlert("Please enter valid amount !")
+            
+        }
+        else {
+            let lengthOfMortgageLoan : Int = Int(self.mortgageLoanLength.titleLabel!.text!)!
+            let monthlyIntRate: Double = Double(self.annualInterestRate.text!)! / (12 * 100);
+            let months: Double = Double(lengthOfMortgageLoan * 12);
+            
+            let loanAmount = Double(self.housePrice.text!)! - Double(self.downPaymentAmount.text!)!;
             self.loanAmt = loanAmount
             
             let monthlyPaymentAmount: Double = (loanAmount * monthlyIntRate) / (1 - pow((1+monthlyIntRate), -months))
@@ -70,47 +80,19 @@ class FirstViewController: UIViewController {
             //to check if the monthly amount is greater than zero
             if monthlyPaymentAmount < 0.00 {
                 
-                //pop an alert
-                let alert1 = UIAlertController(title: "Oops!", message: "Please enter valid amount !", preferredStyle: UIAlertControllerStyle.actionSheet)
-                let action1 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
-                alert1.addAction(action1)
-                self.present(alert1, animated: true, completion: nil)
-                
-               // self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
-                
-                print("\n ALERT for invalid amount called !! \n")
-            }
-            else if (street.text?.characters.count)!>0 && (city.text?.characters.count)!>0 && (zipcode.text?.characters.count)!>0 {
-             
-                //pop an alert
-                let alert2 = UIAlertController(title: "Oops!", message: "Please enter valid address !", preferredStyle: UIAlertControllerStyle.actionSheet)
-                let action2 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
-                alert2.addAction(action2)
-                //self.view?.window?.rootViewController?.present(alert, animated: true, completion: nil)
-                self.present(alert2, animated: true, completion: nil)
-                
-                               print("\n ALERT for invalid address called !! \n")
+                giveAlert("Please enter valid amount !")
                 
             }
-            else if (propertyType.titleLabel?.text?.range(of: "House") != nil) || (propertyType.titleLabel?.text?.range(of: "Townhouse") != nil) || (propertyType.titleLabel?.text?.range(of: "Condo") != nil) {
-                
-                //pop an alert
-                let alert3 = UIAlertController(title: "Oops!", message: "Please select property type.", preferredStyle: UIAlertControllerStyle.actionSheet)
-                let action3 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
-                alert3.addAction(action3)
-                self.present(alert3, animated: true, completion: nil)
-                               print("\n ALERT for invalid property type called !! \n")
-                
-            }
-            else{
-            
+            else {
                 monthlyPayment.text = String(format: "%.2f", monthlyPaymentAmount)
+                self.mAmt = monthlyPaymentAmount
                 
                 print("\n monthly payment: \(monthlyPaymentAmount)")
-            
+                
             }
             
         }
+        
     }
     
     
@@ -132,8 +114,22 @@ class FirstViewController: UIViewController {
     
     //save button click
     @IBAction func didTapSave(_ sender: Any) {
-        if (street.text?.characters.count)!>0 && (city.text?.characters.count)!>0 && (zipcode.text?.characters.count)!>0 {
+        
+        let validAddr : Bool = checkAddress()
+        let validAmt : Bool = checkAmount()
+        
+        if !validAddr {
+            giveAlert("Please enter valid address !")
             
+        }
+        else if !validAmt {
+            giveAlert("Please enter valid amount !")
+            
+        }
+        else if ((self.monthlyPayment.text?.characters.count)! < 1) {
+            giveAlert(" please calculate the monthly price first !")
+        }
+        else {
             let address = "\(street.text!), \(city.text!),  \(selectState.titleLabel!.text!) \(zipcode.text!)"
             print("address is: \(address)")
             
@@ -142,15 +138,11 @@ class FirstViewController: UIViewController {
                 self.processResponse(withPlacemarks: placemarks, error: error)
                 
                 self.performSegue(withIdentifier: "jumpToMapSeg", sender: self)
-                
-            }
-        }else {
-            let alert4 = UIAlertController(title: "Oops!", message: "Please enter valid address", preferredStyle: UIAlertControllerStyle.actionSheet)
-            let action4 = UIAlertAction(title: "CANCEL", style: .default, handler: nil)
-            alert4.addAction(action4)
-            
-            self.present(alert4, animated: true, completion: nil)
         }
+
+        
+      }
+
     }
     
     
@@ -171,8 +163,8 @@ class FirstViewController: UIViewController {
                 coordinate = location.coordinate
                 locationLabel.text = "\(coordinate.latitude) \(coordinate.longitude)"
               
-                lati = coordinate.latitude
-                long = coordinate.longitude
+                self.lati = coordinate.latitude
+                self.long = coordinate.longitude
                 
                 postToDatabase()
                 
@@ -219,6 +211,8 @@ class FirstViewController: UIViewController {
     
     func postToDatabase(){
         
+        if self.lati != 0.0 && self.long != 0.0 {
+        
         let calculation: NSDictionary = [
             "propertyType" : propertyType.titleLabel!.text!,
          "streetAddr" : street.text!,
@@ -251,6 +245,10 @@ class FirstViewController: UIViewController {
         
     
     clearFlags()
+        }
+        else {
+            giveAlert(" Please enter valid address and try again !")
+        }
         
     }
     
@@ -271,40 +269,69 @@ class FirstViewController: UIViewController {
     
     func prefill(){
         
-        let currentRef = Database.database().reference().child("calculations")
-        
-        currentRef.observe(.value, with: { snapshot in
-        
-            for item in snapshot.children {
-                
-                let snap = item as! DataSnapshot
-                
-                if (snap.key as? String) == self.dbkey {
-                
-                    let dict = (item as AnyObject).value as! NSDictionary
-                    
-                    propertyType.titleLabel!.text! = dict.value[forKey: "propertyType"]
-                    street.text! = dict.value[forKey: "streetAddr"]
-                    city.text! = dict.value[forKey: "cityAddr"]
-                    selectState.titleLabel!.text! = dict.value[forKey: "stateAddr"]
-                    zipcode.text! = dict.value[forKey: "zip"]
-                    housePrice.text! = dict.value[forKey: "hPrice"]
-                    annualInterestRate.text! = dict.value[forKey: "anr"]
-                    downPaymentAmount.text! = dict.value[forKey: "dpayment"]
-                    mortgageLoanLength.titleLabel!.text! = dict.value[forKey: "loanlength"]
-                    monthlyPayment.text! = dict.value[forKey: "mAmount"]
+        Database.database().reference().child("calculations").child((self.dbkey as? String)!).observe(.value, with: { snapshot in
+            
+            let child = snapshot as DataSnapshot
+            
+        let dict = child as? NSDictionary
+            
+            self.propertyType.titleLabel!.text! = dict!.value(forKey: "propertyType") as! String
+            self.street.text! = dict!.value(forKey: "streetAddr") as! String
+            self.city.text! = dict!.value(forKey: "cityAddr") as! String
+            self.selectState.titleLabel!.text! = dict!.value(forKey: "stateAddr") as! String
+            self.zipcode.text! = dict!.value(forKey: "zip") as! String
+            self.housePrice.text! = dict!.value(forKey: "hPrice") as! String
+            self.annualInterestRate.text! = dict!.value(forKey: "anr") as! String
+            self.downPaymentAmount.text! = dict!.value(forKey: "dpayment") as! String
+            self.mortgageLoanLength.titleLabel!.text! = dict!.value(forKey: "loanlength") as! String
+            self.monthlyPayment.text! = dict!.value(forKey: "mAmount") as! String
 
-                }
-                    
-                
-                
-                
-            }
+            
+            
             
         })
         
-    
-   
 }
+    
+    func giveAlert (_ msg : String) {
+        
+        //pop an alert
+        let alert1 = UIAlertController(title: "Oops!", message: msg , preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let action1 = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.default , handler: nil)
+        
+        alert1.addAction(action1)
+        
+        self.present(alert1, animated: true, completion: nil)
+
+        
+    }
+    
+    func checkAddress () -> Bool{
+        
+        let pt : Bool = ( (self.propertyType.titleLabel?.text)?.range(of: "Home") != nil) || ( (self.propertyType.titleLabel?.text)?.range(of: "Townhouse") != nil) || ( (self.propertyType.titleLabel?.text)?.range(of: "Condo") != nil)
+        
+        let st : Bool = ((self.street.text?.characters.count)! > 0)
+        let city : Bool = ((self.city.text?.characters.count)! > 0)
+        let zip : Bool = ((self.zipcode.text?.characters.count)! > 0)
+        
+        let state : Bool = (self.selectState.titleLabel?.text?.characters.count)! < 3
+        
+        return pt && st && city && zip && state
+        
+        
+    }
+    
+    func checkAmount () -> Bool {
+        
+        let hp : Bool = Double(self.housePrice.text!)! > 0.0
+        let dp : Bool = Double(self.downPaymentAmount.text!)! > 0.0
+        let anr : Bool = Double(self.annualInterestRate.text!)! > 0.0
+        let loan : Bool = Double(self.housePrice.text!)! > Double(self.downPaymentAmount.text!)!
+        let period : Bool = Int64((self.mortgageLoanLength.titleLabel?.text?.characters.count)!) < 3
+        
+        return hp && dp && anr && loan && period
+        
+    }
 
 }

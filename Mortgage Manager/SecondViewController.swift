@@ -70,17 +70,6 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
                 marker.position = CLLocationCoordinate2D(latitude: getLatitude as! CLLocationDegrees, longitude: getLongitude as! CLLocationDegrees)
                 marker.title = dict.value(forKey: "mAmount") as? String
                 
-                let s : String = dict.value(forKey: "streetAddr") as! String
-                let c : String = dict.value(forKey: "cityAddr") as! String
-                let a : String = dict.value(forKey: "anr") as! String
-                let l : String = dict.value(forKey: "hPrice") as! String
-                let m : String = dict.value(forKey: "mAmount") as! String
-
-                let totalString: String = "\(s) \(c) \nANR: \(a) \nHousePrice: \(l) \nMonthlyPayment: \(m)"
-                
-                self.info = totalString
-                
-               // marker.snippet = totalString
                 marker.snippet = uid
                 
                 marker.map = mapview
@@ -101,48 +90,47 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
         
-        self.markerKey = (marker.snippet)!
+        self.markerKey = (marker.snippet! as? String)!
         
-        let db = Database.database().reference().child("calculations").child(marker.snippet!)
-        /*
-         postsRef.observeSingleEventOfType(.Value, withBlock { snapshot in
-         
-         for child in snapshot.children {
-         */
+        let db = Database.database().reference().child("calculations").child((marker.snippet! as? String)!)
+        
         db.observeSingleEvent(of: .value, with: { (snapshot) in
             
+            //var dict = [NSDictionary]()
             
+            let snap = snapshot.children
+            let child = snap as! DataSnapshot
+            let dict = child.value as! NSDictionary
+        
+            let s : String = dict.value(forKey: "streetAddr") as! String
+            let c : String = dict.value(forKey: "cityAddr") as! String
+            let a : String = dict.value(forKey: "anr") as! String
+            let l : String = dict.value(forKey: "loanAmt") as! String
+            let m : String = dict.value(forKey: "mAmount") as! String
             
-//           let dict = snapshot.value as! NSDictionary
-  //          print("\nDICT:\n \(dict)")
-    
-            var dict = [NSDictionary]()
+            let totalString: String = "\(s) \(c) \n ANR: \(a) \n loanAmount: \(l) \nMonthlyPayment: \(m)"
             
-            for child in snapshot.children{
-                dict.append((child as AnyObject) as! NSDictionary)
-            }
+            self.info = totalString
             
+            print("\n TOTAL STRING \n : \(totalString)")
             print("\n DICT: \n \(dict)")
         })
         
         
-        let s : String = dict.value(forKey: "streetAddr") as! String
-        let c : String = dict.value(forKey: "cityAddr") as! String
-        let a : String = dict.value(forKey: "anr") as! String
-        let l : String = dict.value(forKey: "loanAmt") as! String
-        let m : String = dict.value(forKey: "mAmount") as! String
+        let alert = UIAlertController(title: "Property info", message: info , preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let totalString: String = "\(s) \(c) \n ANR: \(a) \n loanAmount: \(l) \nMonthlyPayment: \(m)"
+        alert.addAction(UIAlertAction(title:"EDIT", style : UIAlertActionStyle.default , handler : {
+            ACTION in
+            self.editMarker()
+        }))
         
-        let alert = UIAlertController(title: "Property info", message: totalString , preferredStyle: UIAlertControllerStyle.actionSheet)
+        alert.addAction(UIAlertAction(title:"DELETE", style : UIAlertActionStyle.destructive , handler : {
+            ACTION in
+            self.deleteMarker()
+        }))
         
-        let action1 = UIAlertAction(title: "EDIT", style: .default, handler: editMarker)
-        let action2 = UIAlertAction(title: "DELETE", style: .default, handler: deleteMarker)
-        let action3 = UIAlertAction(title: "CANCEL", style: .default, handler: cancelMarker)
-        
-        alert.addAction(action1)
-        alert.addAction(action2)
-        alert.addAction(action3)
+        alert.addAction(UIAlertAction(title:"CANCEL", style : UIAlertActionStyle.default , handler : nil
+        ))
         
         self.present(alert, animated: true, completion: nil)
        
@@ -152,7 +140,7 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
 
 }
     
-    func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -165,6 +153,8 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
             let storyb = self.storyboard?.instantiateViewController(withIdentifier: "FirstViewController")
             storyb?.setValue(self.markerKey as! String, forKey: "dbkey")
             
+            self.markerKey = ""
+            
             self.performSegue(withIdentifier: "mapsToFirst", sender: self)
         }
         
@@ -175,18 +165,12 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
     func deleteMarker () {
         if !(self.markerKey.isEmpty) {
             Database.database().reference().child("calculations").child(markerKey as! String).removeValue()
-            
+            self.markerKey = ""
             self.viewDidLoad()
         }
         
     }
     
-    func cancelMarker () {
-        
-        if !(self.markerKey.isEmpty){
-            self.markerKey = ""
-        }
-    }
-
+   
 
 }
