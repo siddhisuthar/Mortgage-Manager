@@ -110,8 +110,8 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
                     let s : String = dict.value(forKey: "streetAddr") as! String
                     let c : String = dict.value(forKey: "cityAddr") as! String
                     let a : String = String(describing: dict.value(forKey: "anr")!) as! String
-                    let l : String = String(describing: dict.value(forKey: "loanAmt")!) as! String
-                    let m : String = String(describing: dict.value(forKey: "mAmount")!) as! String
+                    let l = dict.value(forKey: "loanAmt")! as! AnyObject
+                    let m = dict.value(forKey: "mAmount")! as! AnyObject
                     
                     let totalString: String = "\(s) \(c) \n ANR: \(a) \n loanAmount: \(l) \nMonthlyPayment: \(m)"
                     
@@ -165,22 +165,22 @@ class SecondViewController: UIViewController, GMSMapViewDelegate {
     func editMarker () {
         
         if !(self.markerKey.isEmpty){
-            let storyb = self.storyboard?.instantiateViewController(withIdentifier: "FirstViewController")
-            storyb?.setValue(self.markerKey as! String, forKey: "dbkey")
             
-            let delay = DispatchTime.now() + 0.5
-            DispatchQueue.main.asyncAfter(deadline: delay) {
             
-                print("\n NOW DB key of first controller is :")
-                print(storyb?.value(forKey: "markeyKey")! as! String)
-                
                 print("\n db key on second view controller is:")
                 print(self.markerKey as! String)
                 
                 self.performSegue(withIdentifier: "mapsToFirst", sender: self)
-                
             
-            }
+            
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "mapsToFirst" {
+            let fvc = segue.destination as! FirstViewController
+            fvc.dbkey = self.markerKey
         }
     }
     

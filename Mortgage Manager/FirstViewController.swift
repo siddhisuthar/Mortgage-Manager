@@ -39,6 +39,7 @@ class FirstViewController: UIViewController {
     var dbkey : String = ""
     var loanAmt : Double = 0.0
     var mAmt : Double = 0.0
+    let fgv : String = "some var"
    
     
     @IBAction func selectPropertyType(_ sender: Any) {
@@ -272,23 +273,24 @@ class FirstViewController: UIViewController {
         
         Database.database().reference().child("calculations").child((self.dbkey as? String)!).observe(.value, with: { snapshot in
             
-            let child = snapshot as DataSnapshot
+            let dict = snapshot.value as! [String : AnyObject]
             
-        let dict = child.children
+           // let dict = child.children. as Dictionary
             
-            self.propertyType.titleLabel!.text! = dict.value(forKey: "propertyType") as! String
-            self.street.text! = dict.value(forKey: "streetAddr") as! String
-            self.city.text! = dict.value(forKey: "cityAddr") as! String
-            self.selectState.titleLabel!.text! = dict.value(forKey: "stateAddr") as! String
-            self.zipcode.text! = String(describing: dict.value(forKey: "zip"))
-            self.housePrice.text! = String(describing: dict.value(forKey: "hPrice"))
-            self.annualInterestRate.text! = String(describing: dict.value(forKey: "anr"))
-            self.downPaymentAmount.text! = String(describing: dict.value(forKey: "dPayment"))
-            self.mortgageLoanLength.titleLabel!.text! = String(describing: dict.value(forKey: "loanlength"))
+            
+            self.propertyType.titleLabel!.text! = dict["propertyType"]! as! String
+            self.street.text! = dict["streetAddr"]! as! String
+            self.city.text! = dict["cityAddr"]! as! String
+            self.selectState.titleLabel!.text! = dict["stateAddr"]! as! String
+            self.zipcode.text! = dict["zip"]! as! String
+            self.housePrice.text! = dict["hPrice"]! as! String
+            self.annualInterestRate.text! = dict["anr"]! as! String
+            self.downPaymentAmount.text! = dict["dPayment"]! as! String
+            self.mortgageLoanLength.titleLabel!.text! = dict["loanlength"]! as! String
             self.monthlyPayment.text! = ""
-
-            
+  
             print("INSIDE PREFILL")
+            print(self.dbkey)
             
         })
         
